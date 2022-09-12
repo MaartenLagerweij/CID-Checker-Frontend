@@ -1,9 +1,10 @@
 <script>
-    let style = 'primary'
+    export let style = 'primary';
+    export let type = 'button';
 </script>
   
 
-  <button class={style}>
+  <button {type} class={style}>
     <slot></slot>
   </button>
 
