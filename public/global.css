@@ -61,11 +61,3 @@ button:not(:disabled):active {
 button:focus {
 	border-color: #666;
 }
-
-.alert-message {
-    width: 250px;
-    margin: auto;
-    text-decoration: underline;
-	border: 1px solid red;
-    color: red;
-}

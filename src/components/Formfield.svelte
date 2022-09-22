@@ -2,11 +2,12 @@
     import Button from "./Button.svelte";
     
     let input = '';
-
-    $: output = '';
+    $: output = document.getElementById('output');
+    $: result = '';
     $: classStyle = '';
 
-    //let serverURL = 'https://europe-central2-cid-checker-362410.cloudfunctions.net/cidCheckerFunction'
+    const devBaseURL = 'http://localhost:5001/cid-checker-362410/europe-west1/cidChecker/info/';
+    const prodBaseURL = 'https://europe-west1-cid-checker-362410.cloudfunctions.net/cidChecker/info/';
     
     const handleSubmit = async () => {
         let urlsArray = input.split(/\n/);
@@ -15,53 +16,49 @@
 
         if(urlsArray.length > 100) {
             classStyle = 'alert-message';
-            return output = "Max 100 url's";
+            return result = "Max 100 url's";
         } else {
             classStyle = '';
-            output = `Creating CID url's for ${urlsArray.length} pages... Loading...`;
+            result = `Creating CID url's for ${urlsArray.length} pages... Loading...`;
         }
         
         console.log(urlsArray);
 
-
-        //Uncomment below when the server side is working
-
-        // const response = await fetch(serverURL, {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json'
-        //     },
-        //     body: JSON.stringify({
-        //         urls: urlsArray
-        //     })
-        // })
-        
-        // polling(urlsArray);
-
+        const response = await fetch(devBaseURL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                urls: urlsArray
+            })
+        })
+        polling(urlsArray);
     }
 
-    //Uncomment the polling function below when the server side is working and there is a server url to fetch from
+    function polling(urls){
+        const lengthInputUrls = urls.length;
 
-    // function polling(urls){
-    //     const lengthInputUrls = urls.length;
+        const intervalId = setInterval(async () => {
+            console.log('polling', lengthInputUrls)
 
-    //     const intervalId = setInterval(async () => {
-    //         console.log('polling', lengthInputUrls)
+            const response = await fetch(devBaseURL).then(data => data.json());
 
-    //         const response = await fetch(serverURL).then(data => data.json());
+            
 
-    //         if(lengthInputUrls === response.length) {
-    //             let rows = '';
-    //             response.forEach(urlItem => {
-    //                 const row = `<tr><td>${urlItem.url}</td><td>${urlItem.salesForceSyntaxURL}</td></tr>`;
-    //                 rows+= row;
-    //             })
-    //             output.innerHTML = '';
-    //             output.insertAdjacentHTML('beforeend', `<table>${rows}</table>`);
-    //             clearInterval(intervalId)
-    //         };
-    //     }, 1000)
-    // }
+            if(lengthInputUrls === response.length) {
+                let rows = '';
+                response.forEach(urlItem => {
+                    const row = `<tr><td>${urlItem.url}</td><td>${urlItem.salesForceSyntaxURL}</td></tr>`;
+                    rows+= row;
+                })
+                console.log(rows);
+                result = "";
+                output.insertAdjacentHTML('beforeend', `<table>${rows}</table>`);
+                clearInterval(intervalId)
+            };
+        }, 1000)
+    }
 
 </script>
 
@@ -72,7 +69,8 @@
         
         <Button type="submit" id="post">Get CID's</Button>
         <br />
-        <p class={classStyle}>{output}</p>
+        <p class={classStyle}>{result}</p>
+        <div id="output"></div>
 
     </form>
 </main>
