@@ -11,6 +11,7 @@
     
     const handleSubmit = async () => {
         let urlsArray = input.split(/\n/);
+        output.innerHTML = '';
         
         if(urlsArray[urlsArray.length-1] === '') urlsArray.pop();
 
@@ -52,6 +53,7 @@
                     rows+= row;
                 })
                 result = "";
+                
                 output.insertAdjacentHTML('beforeend', `<table>${rows}</table>`);
                 clearInterval(intervalId)
             };
