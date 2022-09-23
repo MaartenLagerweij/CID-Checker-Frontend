@@ -2,7 +2,7 @@
     import Button from "./Button.svelte";
     
     let input = '';
-    $: output = document.getElementById('output');
+    let output = '';
     $: result = '';
     $: classStyle = '';
 
@@ -24,7 +24,7 @@
         
         console.log(urlsArray);
 
-        const response = await fetch(devBaseURL, {
+        const response = await fetch(prodBaseURL, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -42,8 +42,7 @@
         const intervalId = setInterval(async () => {
             console.log('polling', lengthInputUrls)
 
-            const response = await fetch(devBaseURL).then(data => data.json());
-
+            const response = await fetch(prodBaseURL).then(data => data.json());
             
 
             if(lengthInputUrls === response.length) {
@@ -52,7 +51,6 @@
                     const row = `<tr><td>${urlItem.url}</td><td>${urlItem.salesForceSyntaxURL}</td></tr>`;
                     rows+= row;
                 })
-                console.log(rows);
                 result = "";
                 output.insertAdjacentHTML('beforeend', `<table>${rows}</table>`);
                 clearInterval(intervalId)
@@ -70,7 +68,7 @@
         <Button type="submit" id="post">Get CID's</Button>
         <br />
         <p class={classStyle}>{result}</p>
-        <div id="output"></div>
+        <div bind:this={output} id="output"></div>
 
     </form>
 </main>
@@ -83,4 +81,9 @@
         border: 1px solid red;
         color: red;
     }
+    #output {
+        max-width: 1100px;
+        margin: auto;
+    }
+        
 </style>
