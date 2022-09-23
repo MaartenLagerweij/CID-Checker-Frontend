@@ -593,7 +593,7 @@ var app = (function () {
     const { console: console_1 } = globals;
     const file$1 = "src/components/FormField.svelte";
 
-    // (68:8) <Button type="submit" id="post">
+    // (70:8) <Button type="submit" id="post">
     function create_default_slot(ctx) {
     	let t;
 
@@ -613,7 +613,7 @@ var app = (function () {
     		block,
     		id: create_default_slot.name,
     		type: "slot",
-    		source: "(68:8) <Button type=\\\"submit\\\" id=\\\"post\\\">",
+    		source: "(70:8) <Button type=\\\"submit\\\" id=\\\"post\\\">",
     		ctx
     	});
 
@@ -670,16 +670,16 @@ var app = (function () {
     			attr_dev(textarea, "cols", "80");
     			attr_dev(textarea, "type", "text");
     			attr_dev(textarea, "id", "input");
-    			add_location(textarea, file$1, 64, 8, 1942);
-    			add_location(br0, file$1, 65, 8, 2034);
-    			add_location(br1, file$1, 68, 8, 2117);
+    			add_location(textarea, file$1, 66, 8, 1992);
+    			add_location(br0, file$1, 67, 8, 2084);
+    			add_location(br1, file$1, 70, 8, 2167);
     			attr_dev(p, "class", p_class_value = "" + (null_to_empty(/*classStyle*/ ctx[3]) + " svelte-8d6p4l"));
-    			add_location(p, file$1, 69, 8, 2132);
+    			add_location(p, file$1, 71, 8, 2182);
     			attr_dev(div, "id", "output");
     			attr_dev(div, "class", "svelte-8d6p4l");
-    			add_location(div, file$1, 70, 8, 2175);
-    			add_location(form, file$1, 63, 4, 1887);
-    			add_location(main, file$1, 62, 0, 1876);
+    			add_location(div, file$1, 72, 8, 2225);
+    			add_location(form, file$1, 65, 4, 1937);
+    			add_location(main, file$1, 64, 0, 1926);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -772,6 +772,7 @@ var app = (function () {
 
     	const handleSubmit = async () => {
     		let urlsArray = input.split(/\n/);
+    		$$invalidate(1, output.innerHTML = '', output);
     		if (urlsArray[urlsArray.length - 1] === '') urlsArray.pop();
 
     		if (urlsArray.length > 100) {
@@ -784,7 +785,7 @@ var app = (function () {
 
     		console.log(urlsArray);
 
-    		await fetch(devBaseURL, {
+    		await fetch(prodBaseURL, {
     			method: 'POST',
     			headers: { 'Content-Type': 'application/json' },
     			body: JSON.stringify({ urls: urlsArray })
@@ -799,7 +800,7 @@ var app = (function () {
     		const intervalId = setInterval(
     			async () => {
     				console.log('polling', lengthInputUrls);
-    				const response = await fetch(devBaseURL).then(data => data.json());
+    				const response = await fetch(prodBaseURL).then(data => data.json());
 
     				if (lengthInputUrls === response.length) {
     					let rows = '';
