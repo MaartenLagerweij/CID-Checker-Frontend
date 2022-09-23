@@ -593,7 +593,7 @@ var app = (function () {
     const { console: console_1 } = globals;
     const file$1 = "src/components/FormField.svelte";
 
-    // (70:8) <Button type="submit" id="post">
+    // (68:8) <Button type="submit" id="post">
     function create_default_slot(ctx) {
     	let t;
 
@@ -613,7 +613,7 @@ var app = (function () {
     		block,
     		id: create_default_slot.name,
     		type: "slot",
-    		source: "(70:8) <Button type=\\\"submit\\\" id=\\\"post\\\">",
+    		source: "(68:8) <Button type=\\\"submit\\\" id=\\\"post\\\">",
     		ctx
     	});
 
@@ -663,22 +663,23 @@ var app = (function () {
     			br1 = element("br");
     			t3 = space();
     			p = element("p");
-    			t4 = text(/*result*/ ctx[1]);
+    			t4 = text(/*result*/ ctx[2]);
     			t5 = space();
     			div = element("div");
     			attr_dev(textarea, "rows", "15");
     			attr_dev(textarea, "cols", "80");
     			attr_dev(textarea, "type", "text");
     			attr_dev(textarea, "id", "input");
-    			add_location(textarea, file$1, 66, 8, 2008);
-    			add_location(br0, file$1, 67, 8, 2100);
-    			add_location(br1, file$1, 70, 8, 2183);
-    			attr_dev(p, "class", p_class_value = "" + (null_to_empty(/*classStyle*/ ctx[2]) + " svelte-133qvpf"));
-    			add_location(p, file$1, 71, 8, 2198);
+    			add_location(textarea, file$1, 64, 8, 1942);
+    			add_location(br0, file$1, 65, 8, 2034);
+    			add_location(br1, file$1, 68, 8, 2117);
+    			attr_dev(p, "class", p_class_value = "" + (null_to_empty(/*classStyle*/ ctx[3]) + " svelte-8d6p4l"));
+    			add_location(p, file$1, 69, 8, 2132);
     			attr_dev(div, "id", "output");
-    			add_location(div, file$1, 72, 8, 2241);
-    			add_location(form, file$1, 65, 4, 1953);
-    			add_location(main, file$1, 64, 0, 1942);
+    			attr_dev(div, "class", "svelte-8d6p4l");
+    			add_location(div, file$1, 70, 8, 2175);
+    			add_location(form, file$1, 63, 4, 1887);
+    			add_location(main, file$1, 62, 0, 1876);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -699,12 +700,13 @@ var app = (function () {
     			append_dev(p, t4);
     			append_dev(form, t5);
     			append_dev(form, div);
+    			/*div_binding*/ ctx[6](div);
     			current = true;
 
     			if (!mounted) {
     				dispose = [
-    					listen_dev(textarea, "input", /*textarea_input_handler*/ ctx[4]),
-    					listen_dev(form, "submit", prevent_default(/*handleSubmit*/ ctx[3]), false, true, false)
+    					listen_dev(textarea, "input", /*textarea_input_handler*/ ctx[5]),
+    					listen_dev(form, "submit", prevent_default(/*handleSubmit*/ ctx[4]), false, true, false)
     				];
 
     				mounted = true;
@@ -717,14 +719,14 @@ var app = (function () {
 
     			const button_changes = {};
 
-    			if (dirty & /*$$scope*/ 128) {
+    			if (dirty & /*$$scope*/ 256) {
     				button_changes.$$scope = { dirty, ctx };
     			}
 
     			button.$set(button_changes);
-    			if (!current || dirty & /*result*/ 2) set_data_dev(t4, /*result*/ ctx[1]);
+    			if (!current || dirty & /*result*/ 4) set_data_dev(t4, /*result*/ ctx[2]);
 
-    			if (!current || dirty & /*classStyle*/ 4 && p_class_value !== (p_class_value = "" + (null_to_empty(/*classStyle*/ ctx[2]) + " svelte-133qvpf"))) {
+    			if (!current || dirty & /*classStyle*/ 8 && p_class_value !== (p_class_value = "" + (null_to_empty(/*classStyle*/ ctx[3]) + " svelte-8d6p4l"))) {
     				attr_dev(p, "class", p_class_value);
     			}
     		},
@@ -740,6 +742,7 @@ var app = (function () {
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(main);
     			destroy_component(button);
+    			/*div_binding*/ ctx[6](null);
     			mounted = false;
     			run_all(dispose);
     		}
@@ -760,23 +763,23 @@ var app = (function () {
     const prodBaseURL = 'https://europe-west1-cid-checker-362410.cloudfunctions.net/cidChecker/info/';
 
     function instance$1($$self, $$props, $$invalidate) {
-    	let output;
     	let result;
     	let classStyle;
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('FormField', slots, []);
     	let input = '';
+    	let output = '';
 
     	const handleSubmit = async () => {
     		let urlsArray = input.split(/\n/);
     		if (urlsArray[urlsArray.length - 1] === '') urlsArray.pop();
 
     		if (urlsArray.length > 100) {
-    			$$invalidate(2, classStyle = 'alert-message');
-    			return $$invalidate(1, result = "Max 100 url's");
+    			$$invalidate(3, classStyle = 'alert-message');
+    			return $$invalidate(2, result = "Max 100 url's");
     		} else {
-    			$$invalidate(2, classStyle = '');
-    			$$invalidate(1, result = `Creating CID url's for ${urlsArray.length} pages... Loading...`);
+    			$$invalidate(3, classStyle = '');
+    			$$invalidate(2, result = `Creating CID url's for ${urlsArray.length} pages... Loading...`);
     		}
 
     		console.log(urlsArray);
@@ -806,8 +809,7 @@ var app = (function () {
     						rows += row;
     					});
 
-    					console.log(rows);
-    					$$invalidate(1, result = "");
+    					$$invalidate(2, result = "");
     					output.insertAdjacentHTML('beforeend', `<table>${rows}</table>`);
     					clearInterval(intervalId);
     				}
@@ -827,33 +829,48 @@ var app = (function () {
     		$$invalidate(0, input);
     	}
 
+    	function div_binding($$value) {
+    		binding_callbacks[$$value ? 'unshift' : 'push'](() => {
+    			output = $$value;
+    			$$invalidate(1, output);
+    		});
+    	}
+
     	$$self.$capture_state = () => ({
     		Button,
     		input,
+    		output,
     		devBaseURL,
     		prodBaseURL,
     		handleSubmit,
     		polling,
-    		output,
     		result,
     		classStyle
     	});
 
     	$$self.$inject_state = $$props => {
     		if ('input' in $$props) $$invalidate(0, input = $$props.input);
-    		if ('output' in $$props) output = $$props.output;
-    		if ('result' in $$props) $$invalidate(1, result = $$props.result);
-    		if ('classStyle' in $$props) $$invalidate(2, classStyle = $$props.classStyle);
+    		if ('output' in $$props) $$invalidate(1, output = $$props.output);
+    		if ('result' in $$props) $$invalidate(2, result = $$props.result);
+    		if ('classStyle' in $$props) $$invalidate(3, classStyle = $$props.classStyle);
     	};
 
     	if ($$props && "$$inject" in $$props) {
     		$$self.$inject_state($$props.$$inject);
     	}
 
-    	output = document.getElementById('output');
-    	$$invalidate(1, result = '');
-    	$$invalidate(2, classStyle = '');
-    	return [input, result, classStyle, handleSubmit, textarea_input_handler];
+    	$$invalidate(2, result = '');
+    	$$invalidate(3, classStyle = '');
+
+    	return [
+    		input,
+    		output,
+    		result,
+    		classStyle,
+    		handleSubmit,
+    		textarea_input_handler,
+    		div_binding
+    	];
     }
 
     class FormField extends SvelteComponentDev {
