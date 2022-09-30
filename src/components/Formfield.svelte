@@ -1,0 +1,108 @@
+<script>
+    import Button from "./Button.svelte";
+
+    let output2 = document.getElementById('output')
+    
+    let input = '';
+    let output = '';
+    $: result = '';
+    $: classStyle = '';
+    let showTable;
+
+    let rows = [];
+
+    const devBaseURL = 'http://localhost:5001/cid-checker-362410/europe-west1/cidChecker/info/';
+    const prodBaseURL = 'https://europe-west1-cid-checker-362410.cloudfunctions.net/cidChecker/info/';
+
+    const devBaseURL2 = 'http://localhost:5001/cid-checker-backend2/europe-west1/cidChecker/info';
+    
+    const handleSubmit = async () => {
+        let urlsArray = input.split(/\n/);
+        showTable = false;
+        
+        if(urlsArray[urlsArray.length-1] === '') urlsArray.pop();
+
+        if(urlsArray.length > 100) {
+            classStyle = 'alert-message';
+            return result = "Max 100 url's";
+        } else {
+            classStyle = '';
+            result = `Creating CID url's for ${urlsArray.length} pages... Loading...`;
+        }
+        
+        console.log(urlsArray);
+
+        const response = await fetch(devBaseURL2, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                urls: urlsArray
+            })
+        })
+        polling(urlsArray);
+    }
+
+    function polling(urls){
+        const lengthInputUrls = urls.length;
+
+        const intervalId = setInterval(async () => {
+            console.log('polling', lengthInputUrls)
+
+            const response = await fetch(devBaseURL2).then(data => data.json());
+            
+
+            if(lengthInputUrls === response.length) {
+                result = "";
+                rows = response;
+                showTable = true;
+                // let rows = '';
+                // response.forEach(urlItem => {
+                //     const row = `<tr><td>${urlItem.url}</td><td>${urlItem.salesForceSyntaxURL}</td></tr>`;
+                //     rows+= row;
+                // })
+                
+                // output.insertAdjacentHTML('beforeend', `<table>${rows}</table>`);
+                clearInterval(intervalId)
+            };
+        }, 1000)
+    }
+
+</script>
+
+<main>
+    <form on:submit|preventDefault={handleSubmit}>
+        <textarea bind:value={input} rows="15" cols="80" type="text" id="input"></textarea>
+        <br />
+        
+        <Button type="submit" id="post">Get CID's</Button>
+        <br />
+        <p class={classStyle}>{result}</p>
+        <div bind:this={output} id="output">
+            {#if showTable}
+                <table>
+                    {#each rows as { url, salesForceSyntaxURL }}
+                    <tr><td>{url}</td><td>{salesForceSyntaxURL}</td></tr>
+                    {/each}
+                </table>
+            {/if}
+        </div>
+
+    </form>
+</main>
+
+<style>
+    .alert-message {
+        width: 250px;
+        margin: auto;
+        text-decoration: underline;
+        border: 1px solid red;
+        color: red;
+    }
+    #output {
+        max-width: 1100px;
+        margin: auto;
+    }
+        
+</style>
