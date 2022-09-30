@@ -1,10 +1,18 @@
 <script>
+    import { createEventDispatcher } from "svelte";
+    
+    const dispatch = createEventDispatcher();
+
+    function sendForm(){
+      dispatch('onSend')
+    }
+
     export let style = 'primary';
     export let type = 'button';
 </script>
   
 
-  <button {type} class={style}>
+  <button on:click={sendForm} {type} class={style}>
     <slot></slot>
   </button>
 
