@@ -2,6 +2,7 @@
 	import FormField from "./components/FormField.svelte";
 	import Button from "./components/Button.svelte";
 	import OutputField from "./components/OutputField.svelte";
+	import { postFunction, getFunction } from './Api/apiFunctions';
 
 	    
     let input = '';
@@ -11,12 +12,7 @@
     let showTable;
 
     let rows = [];
-
-    const devBaseURL = 'http://localhost:5001/cid-checker-362410/europe-west1/cidChecker/info/';
-    const prodBaseURL = 'https://europe-west1-cid-checker-362410.cloudfunctions.net/cidChecker/info/';
-
-    const devBaseURL2 = 'http://localhost:5001/cid-checker-backend2/europe-west1/cidChecker/info';
-    
+   
     const handleSubmit = async () => {
 
         let urlsArray = input.split(/\n/);
@@ -24,6 +20,14 @@
         showTable = false;
         
         if(urlsArray[urlsArray.length-1] === '') urlsArray.pop();
+
+		// {#if (urlsArray.length > 100)}
+		// 	classStyle = 'alert-message';
+        //     return result = "Max 100 url's";
+		// {:else}
+		// 	classStyle = '';
+        //     result = `Creating CID url's for ${urlsArray.length} pages... Loading...`;
+		// {/if}
 
         if(urlsArray.length > 100) {
             classStyle = 'alert-message';
@@ -35,15 +39,7 @@
         
         console.log(urlsArray);
 
-        const response = await fetch(devBaseURL, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                urls: urlsArray
-            })
-        })
+        await postFunction(urlsArray);
         polling(urlsArray);
     }
 
@@ -53,7 +49,7 @@
         const intervalId = setInterval(async () => {
             console.log('polling', lengthInputUrls)
 
-            const response = await fetch(devBaseURL).then(data => data.json());
+            const response = await getFunction();
             
 			console.log(response);
             if(lengthInputUrls === response.length) {
