@@ -1,5 +1,7 @@
-/node_modules/
-/src/Api/
-/public/build/
-
 .DS_Store
+node_modules
+/build
+/.svelte-kit
+/package
+.env
+.env.*
