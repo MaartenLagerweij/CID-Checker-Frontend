@@ -1,11 +1,11 @@
 <script>
 	import { postFunction } from '$api/postCid.js';
 
-	$: input = '';
-	$: submitError = false;
-	$: submitFeedback = '';
+	let input = '';
+	let submitError = false;
+	let submitFeedback = '';
 	/** @type {Array<{ url: string, salesForceSyntaxURL: string}>}*/
-	$: rows = [];
+	let rows = [];
 
 	const handleSubmit = async () => {
 		let urlsArray = input.split(/\n/);
@@ -14,7 +14,7 @@
 
 		if (urlsArray[urlsArray.length - 1] === '') urlsArray.pop();
 
-		if (urlsArray.length > 0) {
+		if (urlsArray.length > 100) {
 			submitError = true;
 			submitFeedback = "Max 100 url's";
 			return;
