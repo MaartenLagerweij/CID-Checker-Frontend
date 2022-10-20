@@ -11,6 +11,7 @@
 		let urlsArray = input.split(/\n/);
 
 		submitError = false;
+		rows = [];
 
 		if (urlsArray[urlsArray.length - 1] === '') urlsArray.pop();
 
@@ -27,6 +28,7 @@
 		const data = await postFunction(urlsArray);
 
 		rows = await data.json();
+		submitFeedback = "";
 	};
 </script>
 
@@ -34,6 +36,7 @@
 	<h1>CID Checker</h1>
 	<form on:submit|preventDefault={handleSubmit}>
 		<textarea bind:value={input} rows="15" cols="80" type="text" id="input" />
+		<br />
 		<button type="submit"> Get CID's </button>
 	</form>
 

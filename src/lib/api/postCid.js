@@ -8,6 +8,7 @@ const prodBaseURL = 'https://europe-west1-cid-checker-362410.cloudfunctions.net/
  * @returns
  */
 export async function postFunction(urlsToPost) {
+	console.log('post request to ',prodBaseURL);
 	return await fetch(prodBaseURL, {
 		method: 'POST',
 		headers: {
