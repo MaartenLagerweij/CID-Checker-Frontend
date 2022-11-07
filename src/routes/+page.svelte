@@ -1,5 +1,6 @@
 <script>
 	import { postFunction } from '$api/postCid.js';
+	import PageSelector from './PageSelector.svelte';
 
 	let input = '';
 	let submitError = false;
@@ -34,6 +35,9 @@
 
 <main>
 	<h1>CID Checker</h1>
+
+	<PageSelector />
+
 	<form on:submit|preventDefault={handleSubmit}>
 		<textarea bind:value={input} rows="15" cols="80" type="text" id="input" />
 		<br />
