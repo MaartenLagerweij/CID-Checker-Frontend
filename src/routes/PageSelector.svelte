@@ -1,15 +1,25 @@
 <script>
+    import { createEventDispatcher } from 'svelte';
+    let dispatch = createEventDispatcher();
+
     const pageTypes = ["Brand pages", "Category pages", "Combination pages"];
-    let radioValue = '';
+    let radioValue = 'a';
+
+    const choosePageType = () => {
+
+        console.log('from PageSelector', radioValue)
+        dispatch('choosePageType', radioValue);
+    }
 </script>
 
 {#each pageTypes as pageType}
-    <label class="container">
-        <input type="radio" value={pageType} name="page-types" bind:group={radioValue} />
-        {pageType}
+    <label class="container" >
+        <input type="radio" value={pageType} on:click={choosePageType} bind:group={radioValue} />
+            {pageType}
         <span class="checkmark"></span>
     </label>
 {/each}
+
 
 {#if radioValue}
     <p class="radio-value">selected value: <strong><span style="text-decoration:underline">{radioValue}</span></strong></p>
@@ -20,9 +30,9 @@
 /* The container */
 .radio-value {
     font-size: 18px;
+    margin-bottom: 0px;
 }
 .container {
-  display: block;
   position: relative;
   padding-left: 35px;
   margin-bottom: 12px;
@@ -39,7 +49,6 @@
 
 /* Hide the browser's default radio button */
 .container input {
-  position: absolute;
   opacity: 0;
   cursor: pointer;
 }

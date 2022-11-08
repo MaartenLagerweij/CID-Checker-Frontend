@@ -5,6 +5,7 @@
 	let input = '';
 	let submitError = false;
 	let submitFeedback = '';
+	$: submitPageType = '';
 	/** @type {Array<{ url: string, salesForceSyntaxURL: string}>}*/
 	let rows = [];
 
@@ -31,17 +32,24 @@
 		rows = await data.json();
 		submitFeedback = "";
 	};
+
+	// @ts-ignore
+	function choosePageType(event){
+		console.log('from +page',event.detail);
+		return submitPageType = event.detail
+	}
 </script>
 
 <main>
 	<h1>CID Checker</h1>
 
-	<PageSelector />
-
 	<form on:submit|preventDefault={handleSubmit}>
+
+		<PageSelector on:choosePageType={choosePageType} /><br /><br />
+
 		<textarea bind:value={input} rows="15" cols="80" type="text" id="input" />
 		<br />
-		<button type="submit"> Get CID's </button>
+		<button type="submit"> Get CID's {#if submitPageType}for {submitPageType}{/if}</button>
 	</form>
 
 	<p class:alert-message={submitError === true}>
