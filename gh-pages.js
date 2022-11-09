@@ -1,7 +1,7 @@
 import { publish } from 'gh-pages';
 
 publish(
-	'docs', // path to public directory
+	'build', // path to public directory
 	{
 		branch: 'gh-pages',
 		repo: 'https://github.com/MaartenLagerweij/CID-checker-Frontend.git', // Update to point to your repository
