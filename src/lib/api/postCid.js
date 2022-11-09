@@ -1,4 +1,4 @@
-const devBaseURL = 'http://localhost:5001/cid-checker-362410/europe-west1/cidChecker/info/';
+const devBaseURL = 'http://localhost:5001/cid-checker-362410/europe-west1/cidChecker';
 const prodBaseURL = 'https://europe-west1-cid-checker-362410.cloudfunctions.net/cidChecker/info/';
 // const devBaseURL2 = 'http://localhost:5001/cid-checker-backend2/europe-west1/cidChecker/info';
 
@@ -7,9 +7,10 @@ const prodBaseURL = 'https://europe-west1-cid-checker-362410.cloudfunctions.net/
  * @param {string[]} urlsToPost
  * @returns
  */
-export async function postFunction(urlsToPost) {
-	console.log('post request to ',devBaseURL);
-	return await fetch(devBaseURL, {
+// @ts-ignore
+export async function postFunction(urlsToPost, routeEndpoint) {
+	console.log('post request to ',devBaseURL+routeEndpoint);
+	return await fetch(devBaseURL+routeEndpoint, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json'
