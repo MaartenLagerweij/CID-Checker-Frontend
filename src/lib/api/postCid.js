@@ -1,3 +1,4 @@
+// @ts-nocheck
 const functionsURL = import.meta.env.VITE_FUNCTIONS_PATH;
 
 /**
@@ -5,8 +6,8 @@ const functionsURL = import.meta.env.VITE_FUNCTIONS_PATH;
  * @param {string[]} urlsToPost
  * @returns
  */
-export async function postFunction(urlsToPost) {
-	return await fetch(functionsURL, {
+export async function postFunction(urlsToPost,routeEndpoint) {
+	return await fetch(functionsURL+routeEndpoint, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json'
