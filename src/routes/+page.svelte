@@ -8,6 +8,7 @@
 	let submitFeedback = '';
 	let buttonDisabled = true;
 	let radioValue = '';
+	let cidDisplayRadioValue = 'Salesforce Syntax';
 	//this one is created because if somewould has received url's already and then used the radiobutton, the output would change again if radioValue was used inside the result.
 	let submittedPageValue = '';
 	const pageTypes = ["Brand pages", "Category pages", "Combination pages"];
@@ -16,6 +17,7 @@
 		"Category pages": "/check-categories/",
 		"Combination pages": "/check-combinations/"
 	}
+	const cidDisplayOptions = ["Salesforce Syntax", "CID only", "cat-info-bottom"];
 	/** @type {Array<{ url: string, salesForceSyntaxURL: string}>}*/
 	let rows = [];
 
@@ -73,25 +75,46 @@
 	<p class:alert-message={submitError === true}>
 		{submitFeedback}
 	</p>
+
+
+	{#if rows.length > 0}
+
+	{#each cidDisplayOptions as cidDisplayOption}
+		<label class="container-radio" >
+			<input type="radio" value={cidDisplayOption} bind:group={cidDisplayRadioValue} />
+				{cidDisplayOption}
+			<span class="checkmark"></span>
+		</label>
+	{/each}<br /><br />
+
+
 	<div id="output">
-		{#if rows.length > 0}
+
 			<table>
-				{#each rows as { url, cid, brandName, error  }}
+				{#each rows as { url, cid, brandName, brandCID, error  }}
 					<tr>
 						<td>
 							{url}
 						</td>
 						<td>
 							{#if error} <span id="error-message">{error}</span>
-								{:else if submittedPageValue==="Brand pages" || submittedPageValue==="Category pages"} {`$httpsUrl('Search-Show','cgid','${cid}')$`}
-								{:else if submittedPageValue==="Combination pages"} {`$httpsUrl('Search-Show','cgid','${cid}','prefn1','brand','prefv1','${brandName}')$`}
+								{:else if submittedPageValue==="Brand pages" || submittedPageValue==="Category pages"}
+									{#if cidDisplayRadioValue==="Salesforce Syntax"} {`$httpsUrl('Search-Show','cgid','${cid}')$`}
+									{:else if cidDisplayRadioValue==="CID only"} {cid}
+									{:else if cidDisplayRadioValue==="cat-info-bottom"} {`cat-info-bottom-${cid}`}
+									{/if}
+								{:else if submittedPageValue==="Combination pages"} 
+									{#if cidDisplayRadioValue==="Salesforce Syntax"} {`$httpsUrl('Search-Show','cgid','${cid}','prefn1','brand','prefv1','${brandName}')$`}
+									{:else if cidDisplayRadioValue==="CID only"} <span id="error-message">can't give cid for combination</span>
+									{:else if cidDisplayRadioValue==="cat-info-bottom"} {`cat-info-bottom-${cid}-${brandCID}`}
+									{/if}
 							{/if}
 						</td>
 					</tr>
 				{/each}
 			</table>
+		</div>
 		{/if}
-	</div>
 </main>
 
 <style>
