@@ -2,6 +2,7 @@
 // @ts-nocheck
 
 	import { postFunction } from '$api/postCid.js';
+	import './style.css'
 
 	let input = '';
 	let submitError = false;
@@ -225,8 +226,9 @@
 		left: 0;
 		height: 25px;
 		width: 25px;
-		background-color: #eee;
+		background-color: rgb(199, 199, 199);
 		border-radius: 50%;
+		border: black;
 	}
 
 	/* On mouse-over, add a grey background color */
@@ -260,4 +262,5 @@
 		border-radius: 50%;
 		background: white;
 	}
+
 </style>
