@@ -27,7 +27,9 @@ body {
 		),
 		linear-gradient(180deg, var(--color-bg-0) 0%, var(--color-bg-1) 15%, var(--color-bg-2) 50%);
 }
-
-/* a {
-    color: red;
-} */
+h1 {
+	color: #ff3e00;
+	text-transform: uppercase;
+	font-size: 4em;
+	font-weight: 100;
+}
