@@ -50,7 +50,6 @@
 	};
 </script>
 
-<main>
 	<h1>CID Checker</h1>
 
 	<form on:submit|preventDefault={handleSubmit}>
@@ -68,9 +67,9 @@
 			<p class="radio-value">selected value: <strong><span style="text-decoration:underline">{radioValue}</span></strong></p>
 		{/if}<br /><br />
 
-		<textarea bind:value={input} rows="15" cols="80" type="text" id="input" />
+		<textarea class="form-control" placeholder="Paste url's here" bind:value={input} rows="15" cols="80" type="text" id="input" />
 		<br />
-		<button disabled='{buttonDisabled}' type="submit"> Get CID's {#if radioValue}for {radioValue}{/if}</button>
+		<button class="btn btn-outline-success" disabled='{buttonDisabled}' type="submit"> Get CID's {#if radioValue}for {radioValue}{/if}</button>
 	</form>
 
 	<p class:alert-message={submitError === true}>
@@ -116,21 +115,10 @@
 			</table>
 		</div>
 		{/if}
-</main>
 
 <style>
-	main {
-		text-align: center;
-		padding: 1em;
-		max-width: 240px;
-		margin: 0 auto;
-	}
 
-	@media (min-width: 640px) {
-		main {
-			max-width: none;
-		}
-	}
+	
 
 	button {
 		background-color: #202142;
@@ -193,7 +181,8 @@
 
 	.container-radio {
 		position: relative;
-		padding-left: 35px;
+		padding-left: 15px;
+    	padding-right: 20px;
 		margin-bottom: 12px;
 		cursor: pointer;
 		font-size: 18px;
@@ -202,7 +191,6 @@
 		-ms-user-select: none;
 		user-select: none;
 		margin: auto;
-		padding: 4px;
 		max-width: 300px;
 	}
 

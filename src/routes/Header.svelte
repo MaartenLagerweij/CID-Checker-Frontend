@@ -67,12 +67,12 @@
     }
     
     li.active::before {
-		--size: 6px;
+		--size: 7px;
 		content: '';
 		width: 0;
 		height: 0;
 		position: absolute;
-		top: -13px;
+		top: -11px;
 		left: calc(50% - var(--size));
 		border: var(--size) solid transparent;
 		border-top: var(--size) solid var(--color-theme-1);
