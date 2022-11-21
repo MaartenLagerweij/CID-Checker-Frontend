@@ -1,5 +1,6 @@
 <script>
 // @ts-nocheck
+	import { fly } from 'svelte/transition';
 
 	import { postFunction } from '$api/postCid.js';
 	import './style.css'
@@ -80,7 +81,7 @@
 	{#if rows.length > 0}
 
 	{#each cidDisplayOptions as cidDisplayOption}
-		<label class="container-radio" >
+		<label in:fly="{{x: 200, duration: 1600 }}" class="container-radio" >
 			<input type="radio" value={cidDisplayOption} bind:group={cidDisplayRadioValue} />
 				{cidDisplayOption}
 			<span class="checkmark"></span>
@@ -90,7 +91,7 @@
 
 	<div id="output">
 
-			<table>
+			<table in:fly="{{x: -200, duration: 1600 }}">
 				{#each rows as { url, cid, brandName, brandCID, error  }}
 					<tr>
 						<td>
@@ -148,6 +149,7 @@
 		font-family: arial, sans-serif;
 		border-collapse: collapse;
 		width: 100%;
+		margin-bottom: 100px;
 	}
 
 	td {

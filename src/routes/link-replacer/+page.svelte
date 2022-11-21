@@ -88,7 +88,7 @@
         {/if}
         <br />
         {#if output}
-            <div transition:slide class="output">
+            <div in:slide class="output">
                         {@html output}
                 </div>
         {/if}
@@ -100,5 +100,6 @@
     }
     .output {
         text-align: left;
+        margin-bottom: 100px;
     }
 </style>
