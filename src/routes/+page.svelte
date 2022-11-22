@@ -19,7 +19,7 @@
 		"Category pages": "/check-categories/",
 		"Combination pages": "/check-combinations/"
 	}
-	const cidDisplayOptions = ["Salesforce Syntax", "CID only", "cat-info-bottom"];
+	const cidDisplayOptions = ["Salesforce Syntax", "HTML Salesforce Syntax", "CID only", "cat-info-bottom"];
 	/** @type {Array<{ url: string, salesForceSyntaxURL: string}>}*/
 	let rows = [];
 
@@ -101,11 +101,13 @@
 							{#if error} <span id="error-message">{error}</span>
 								{:else if submittedPageValue==="Brand pages" || submittedPageValue==="Category pages"}
 									{#if cidDisplayRadioValue==="Salesforce Syntax"} {`$httpsUrl('Search-Show','cgid','${cid}')$`}
+									{:else if cidDisplayRadioValue==="HTML Salesforce Syntax"} {`<a href="$httpsUrl('Search-Show','cgid','${cid}')$"></a>`}
 									{:else if cidDisplayRadioValue==="CID only"} {cid}
 									{:else if cidDisplayRadioValue==="cat-info-bottom"} {`cat-info-bottom-${cid}`}
 									{/if}
 								{:else if submittedPageValue==="Combination pages"} 
 									{#if cidDisplayRadioValue==="Salesforce Syntax"} {`$httpsUrl('Search-Show','cgid','${cid}','prefn1','brand','prefv1','${brandName}')$`}
+									{:else if cidDisplayRadioValue==="HTML Salesforce Syntax"} {`<a href="$httpsUrl('Search-Show','cgid','${cid}','prefn1','brand','prefv1','${brandName}')$"></a>`}
 									{:else if cidDisplayRadioValue==="CID only"} <span id="error-message">can't give cid for combination</span>
 									{:else if cidDisplayRadioValue==="cat-info-bottom"} {`cat-info-bottom-${cid}-${brandCID}`}
 									{/if}

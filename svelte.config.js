@@ -15,7 +15,8 @@ const config = {
 		},
 		paths: {
 			// change below to your repo name
-			base: dev ? '' : '/CID-checker-Frontend'
+			//base: dev ? '' : '/CID-checker-Frontend'
+			base: '/CID-checker-Frontend'
 		},
 		trailingSlash: 'always'
 	}
