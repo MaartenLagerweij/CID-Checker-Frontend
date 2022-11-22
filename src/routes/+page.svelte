@@ -1,6 +1,6 @@
 <script>
 // @ts-nocheck
-	import { fly } from 'svelte/transition';
+	import { fly, slide } from 'svelte/transition';
 
 	import { postFunction } from '$api/postCid.js';
 	import './style.css'
@@ -9,6 +9,7 @@
 	let submitError = false;
 	let submitFeedback = '';
 	let buttonDisabled = true;
+	let noURLsMessage;
 	let radioValue = '';
 	let cidDisplayRadioValue = 'Salesforce Syntax';
 	//this one is created because if somewould has received url's already and then used the radiobutton, the output would change again if radioValue was used inside the result.
@@ -24,6 +25,12 @@
 	let rows = [];
 
 	const handleSubmit = async () => {
+		if(input === '') {
+			return noURLsMessage = true
+		} else {
+			noURLsMessage = false;
+		}
+
 		const routeEndpoint = pageTypesWithUrls[radioValue];
 		submittedPageValue = radioValue;
 		console.log('sending request to: ', routeEndpoint);
@@ -70,8 +77,13 @@
 
 		<textarea class="form-control" placeholder="Paste url's here" bind:value={input} rows="15" cols="80" type="text" id="input" />
 		<br />
+		{#if noURLsMessage}
+			<p transition:slide class="alert alert-danger">Please enter url's first</p>
+		{/if}
+
 		<button class="btn btn-outline-success" disabled='{buttonDisabled}' type="submit"> Get CID's {#if radioValue}for {radioValue}{/if}</button>
 	</form>
+
 
 	<p class:alert-message={submitError === true}>
 		{submitFeedback}
@@ -105,7 +117,7 @@
 									{:else if cidDisplayRadioValue==="CID only"} {cid}
 									{:else if cidDisplayRadioValue==="cat-info-bottom"} {`cat-info-bottom-${cid}`}
 									{/if}
-								{:else if submittedPageValue==="Combination pages"} 
+								{:else if submittedPageValue==="Combination pages"}
 									{#if cidDisplayRadioValue==="Salesforce Syntax"} {`$httpsUrl('Search-Show','cgid','${cid}','prefn1','brand','prefv1','${brandName}')$`}
 									{:else if cidDisplayRadioValue==="HTML Salesforce Syntax"} {`<a href="$httpsUrl('Search-Show','cgid','${cid}','prefn1','brand','prefv1','${brandName}')$"></a>`}
 									{:else if cidDisplayRadioValue==="CID only"} <span id="error-message">can't give cid for combination</span>
