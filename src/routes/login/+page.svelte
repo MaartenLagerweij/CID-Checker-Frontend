@@ -4,8 +4,10 @@
     import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "firebase/auth";
     import { slide } from "svelte/transition";
 	import { onMount } from "svelte";
+    import { goto } from '$app/navigation';
 
     import app from '../../firestore';
+    import { loginState } from '../../store';
 
     let email = '';
     let password = '';
@@ -19,6 +21,8 @@
                 // Signed in 
                 if(errorLoginMessage) errorLoginMessage = false;
                 user = userCredential.user;
+                loginState.set(true);
+                goto('/CID-checker-Frontend/');
                 console.log('Signed in with user: ', user);
                 // ...
             })
@@ -34,9 +38,10 @@
     const signout = () => {
         const auth = getAuth(app);
          signOut(auth);
+         loginState.set(false);
     }
 
-    onMount(async() => {
+    onMount(() => {
         const auth = getAuth(app);
         onAuthStateChanged(auth, (newUser) => {
             user = newUser;
@@ -45,6 +50,7 @@
                 const uid = newUser.uid;
                 console.log('uid ', uid)
                 console.log('user is signed in')
+                loginState.set(true);
                 // ...
             } else {
                 user = null;
@@ -55,6 +61,7 @@
 </script>
 
 <form>
+    <h1>Login</h1>
     <!-- Email input -->
     <div class="form-outline mb-4">
         <label class="form-label" for="email">Email address:</label>
@@ -84,7 +91,7 @@
   <style>
     form {
         background-color: white;
-        padding: 50px;
+        padding: 40px 80px;
         border: 1px solid #dbdddf;
         border-radius: 1%;
         max-width: 700px;
