@@ -1,6 +1,7 @@
 <script>
     import './style.css';
     import Header from './Header.svelte';
+    import { goto } from '$app/navigation';
 </script>
 
 <Header />
