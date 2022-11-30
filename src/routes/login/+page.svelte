@@ -4,16 +4,14 @@
     import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "firebase/auth";
     import { slide } from "svelte/transition";
 	import { onMount } from "svelte";
-    import { goto } from '$app/navigation';
 
     import app from '../../firestore';
-    import { loginState } from '../../store';
 
     let email = '';
     let password = '';
     let user;
     let errorLoginMessage = false;
-    const login = () => {
+    const login = (evt) => {
         const auth = getAuth(app);
 
         signInWithEmailAndPassword(auth, email, password)
@@ -21,8 +19,6 @@
                 // Signed in 
                 if(errorLoginMessage) errorLoginMessage = false;
                 user = userCredential.user;
-                loginState.set(true);
-                goto('/CID-checker-Frontend/');
                 console.log('Signed in with user: ', user);
                 // ...
             })
@@ -38,7 +34,6 @@
     const signout = () => {
         const auth = getAuth(app);
          signOut(auth);
-         loginState.set(false);
     }
 
     onMount(() => {
@@ -50,7 +45,6 @@
                 const uid = newUser.uid;
                 console.log('uid ', uid)
                 console.log('user is signed in')
-                loginState.set(true);
                 // ...
             } else {
                 user = null;
@@ -60,7 +54,7 @@
     })
 </script>
 
-<form>
+<form on:submit|preventDefault={login}>
     <h1>Login</h1>
     <!-- Email input -->
     <div class="form-outline mb-4">
@@ -75,7 +69,7 @@
     </div>
   
     <!-- Submit button -->
-    <button type="button" on:click={login} class="btn btn-primary btn-block mb-4">Sign in</button>
+    <button type="submit" class="btn btn-primary btn-block mb-4">Sign in</button>
 
     {#if user}
         <button type="button" on:click={signout} class="btn btn-danger btn-block mb-4">Sign out</button>

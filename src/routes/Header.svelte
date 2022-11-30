@@ -1,7 +1,14 @@
 <script>
 // @ts-nocheck
+    import { loginState as loginStateStore } from '../store';
 
     import {page} from "$app/stores";
+
+    let loginState;
+
+    loginStateStore.subscribe(value => {
+        loginState = value;
+    });
     const nav = [
         {
             title: "CID Checker",
@@ -28,6 +35,9 @@
 		</svg>
 
         <a href="/CID-checker-Frontend/login/" class="signin">Sign in?</a>
+        {#if loginState}
+        Logout
+        {/if}
     </nav>
 </header>
 

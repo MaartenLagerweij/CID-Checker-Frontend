@@ -56,6 +56,7 @@
 		rows = await data.json();
 		submitFeedback = "";
 	};
+	
 </script>
 
 	<h1>CID Checker</h1>
