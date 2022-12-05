@@ -11,7 +11,7 @@
 		<meta http-equiv="content-security-policy" content="">
 		<link href="/CID-checker-Frontend/_app/immutable/assets/_layout-3ca53fd5.css" rel="stylesheet">
 		<link href="/CID-checker-Frontend/_app/immutable/assets/style-b883f9fd.css" rel="stylesheet">
-		<link href="/CID-checker-Frontend/_app/immutable/assets/_page-eec35fa7.css" rel="stylesheet">
+		<link href="/CID-checker-Frontend/_app/immutable/assets/_page-39dc2e22.css" rel="stylesheet">
 		<link rel="modulepreload" href="/CID-checker-Frontend/_app/immutable/start-7f119a41.js">
 		<link rel="modulepreload" href="/CID-checker-Frontend/_app/immutable/chunks/index-a3e7e3a5.js">
 		<link rel="modulepreload" href="/CID-checker-Frontend/_app/immutable/chunks/singletons-5caa45c3.js">
@@ -22,40 +22,33 @@
 		<link rel="modulepreload" href="/CID-checker-Frontend/_app/immutable/chunks/stores-376aa3c8.js">
 		<link rel="modulepreload" href="/CID-checker-Frontend/_app/immutable/modules/pages/_layout.js-d7f77e3f.js">
 		<link rel="modulepreload" href="/CID-checker-Frontend/_app/immutable/chunks/_layout-3a8bd00f.js">
-		<link rel="modulepreload" href="/CID-checker-Frontend/_app/immutable/components/pages/link-replacer/_page.svelte-9e09b14a.js">
+		<link rel="modulepreload" href="/CID-checker-Frontend/_app/immutable/components/pages/login/_page.svelte-b90e2794.js">
 		<link rel="modulepreload" href="/CID-checker-Frontend/_app/immutable/chunks/index-c8b6d230.js">
 	</head>
 	<body>
 		<div>
 
 
-<header class="svelte-rxqmmt"><nav class="svelte-rxqmmt"><svg viewBox="0 0 2 3" aria-hidden="true" class="svelte-rxqmmt"><path d="M0,0 L1,2 C1.5,3 1.5,3 2,3 L2,0 Z" class="svelte-rxqmmt"></path></svg>
-        <ul class="svelte-rxqmmt"><li class="svelte-rxqmmt"><a href="/CID-checker-Frontend/" class="svelte-rxqmmt">CID Checker</a></li><li class="svelte-rxqmmt active"><a href="/CID-checker-Frontend/link-replacer/" class="svelte-rxqmmt">Link replacer</a></li></ul>
-        <svg viewBox="0 0 2 3" aria-hidden="true" class="svelte-rxqmmt"><path d="M0,0 L0,3 C0.5,3 0.5,3 1,2 L2,0 Z" class="svelte-rxqmmt"></path></svg>
 
-        </nav>
-</header>
 
-<main class="svelte-1aljuoa"><div class="container svelte-1aljuoa"><h1>Link Replacer</h1>
-
-        <textarea class="form-control" rows="15" type="text" placeholder="Paste input"></textarea>
-        
-        
-        <br>
-        <div class="col-md-6 svelte-1cdw2bk"><label for="excel-input" class="form-label">Upload .csv file here:</label>
-            <input accept=".csv" class="form-control" type="file"></div>
-        
-          
-        <br>
-        <button class="btn btn-outline-primary">Convert</button>
-        <br>
-        
-        <br>
-        </div>
+<main class="svelte-1aljuoa"><div class="container svelte-1aljuoa"><form class="svelte-1dg93eb"><h1>Login</h1>
+    
+    <div class="form-outline mb-4"><label class="form-label svelte-1dg93eb" for="email">Email address:</label>
+        <input type="email" id="email" placeholder="Email address" class="form-control svelte-1dg93eb" value=""></div>
+  
+    
+    <div class="form-outline mb-4"><label class="form-label svelte-1dg93eb" for="pass">Password:</label>
+        <input type="password" id="pass" placeholder="password" class="form-control svelte-1dg93eb" value=""></div>
+  
+    
+    <button type="submit" class="btn btn-primary btn-block mb-4 svelte-1dg93eb">Sign in</button>
+    
+    
+  </form></div>
 </main>
 
 
-		<script type="module" data-sveltekit-hydrate="14z2emd">
+		<script type="module" data-sveltekit-hydrate="1jikph5">
 			import { start } from "/CID-checker-Frontend/_app/immutable/start-7f119a41.js";
 
 			start({
@@ -63,14 +56,14 @@
 				hydrate: {
 					status: 200,
 					error: null,
-					node_ids: [0, 3],
+					node_ids: [0, 4],
 					params: {},
-					routeId: "link-replacer",
+					routeId: "login",
 					data: (function(a){return [a,a]}(null)),
 					form: null
 				},
 				paths: {"base":"/CID-checker-Frontend","assets":"/CID-checker-Frontend"},
-				target: document.querySelector('[data-sveltekit-hydrate="14z2emd"]').parentNode,
+				target: document.querySelector('[data-sveltekit-hydrate="1jikph5"]').parentNode,
 				trailing_slash: "always"
 			});
 		</script>
