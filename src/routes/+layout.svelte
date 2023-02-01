@@ -1,9 +1,17 @@
 <script>
+// @ts-nocheck
+
     import './style.css';
     import Header from './Header.svelte';
-</script>
+	import { page } from "$app/stores";
 
-<Header />
+
+
+    
+</script>
+{#if $page.url.pathname !== '/CID-checker-Frontend/login/'}
+    <Header />
+{/if}
 
 <main>
     <div class="container">
