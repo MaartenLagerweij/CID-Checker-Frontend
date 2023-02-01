@@ -1,6 +1,4 @@
 // @ts-nocheck
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { browser } from '$app/environment';
-import { goto } from '$app/navigation';
 
-import app from '../firestore';
+
+//The function that is now in the +layout.js was in here too, but also then it seems like it first quickly loads the page and then redirects to the login page, when not logged in.

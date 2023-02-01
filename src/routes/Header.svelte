@@ -1,8 +1,10 @@
 <script>
 // @ts-nocheck
     import { loginState as loginStateStore } from '../store';
-
+    import { getAuth, signOut } from "firebase/auth";
     import {page} from "$app/stores";
+
+    import app from '../firestore';
 
     let loginState;
 
@@ -18,6 +20,12 @@
             path: "/CID-checker-Frontend/link-replacer/"
         }
     ]
+
+    const signout = () => {
+        const auth = getAuth(app);
+         signOut(auth);
+         loginStateStore.set(false);
+    }
 </script>
 
 <header>
@@ -34,9 +42,8 @@
 			<path d="M0,0 L0,3 C0.5,3 0.5,3 1,2 L2,0 Z" />
 		</svg>
 
-        <a href="/CID-checker-Frontend/login/" class="signin">Sign in?</a>
         {#if loginState}
-        Logout
+            <button class="btn btn-primary" on:click={signout}>Logout</button>
         {/if}
     </nav>
 </header>
@@ -105,7 +112,13 @@
 		fill: var(--background);
 	}
 
-    .signin {
-
+    .btn {
+        margin: 8px;
+        width: 90px;
+        padding: 3px;
+        background-color: #5ba9fc;
     }
+    .btn-primary:hover {
+        background-color: #0069d9;
+    }  
 </style>

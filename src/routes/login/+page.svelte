@@ -3,7 +3,6 @@
 
     import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "firebase/auth";
     import { slide } from "svelte/transition";
-	import { onMount } from "svelte";
 
     import app from '../../firestore';
 
@@ -19,8 +18,6 @@
                 // Signed in 
                 if(errorLoginMessage) errorLoginMessage = false;
                 user = userCredential.user;
-                console.log('Signed in with user: ', user);
-                // ...
             })
             .catch((error) => {
                 errorLoginMessage = true;
@@ -31,27 +28,6 @@
             });
     }
 
-    const signout = () => {
-        const auth = getAuth(app);
-         signOut(auth);
-    }
-
-    onMount(() => {
-        const auth = getAuth(app);
-        onAuthStateChanged(auth, (newUser) => {
-            user = newUser;
-
-            if (newUser) {
-                const uid = newUser.uid;
-                console.log('uid ', uid)
-                console.log('user is signed in')
-                // ...
-            } else {
-                user = null;
-                console.log('user is signed out')
-            }
-        });
-    })
 </script>
 
 <form on:submit|preventDefault={login}>
@@ -70,10 +46,6 @@
   
     <!-- Submit button -->
     <button type="submit" class="btn btn-primary btn-block mb-4">Sign in</button>
-
-    {#if user}
-        <button type="button" on:click={signout} class="btn btn-danger btn-block mb-4">Sign out</button>
-    {/if}
     
     {#if errorLoginMessage}
         <p transition:slide class="alert alert-danger">Something went wrong with the sign in. Please try again</p>

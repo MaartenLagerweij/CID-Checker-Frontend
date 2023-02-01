@@ -3,9 +3,14 @@
 	import { fly, slide } from 'svelte/transition';
 
 	import { postFunction } from '$api/postCid.js';
+	import { loginState as loginStateStore } from '../store.js'
 	import './style.css'
 
-	let input = '';
+    let loginState;
+
+    loginStateStore.subscribe(value => {
+        loginState = value;
+    });	let input = '';
 	let submitError = false;
 	let submitFeedback = '';
 	let buttonDisabled = true;
@@ -58,7 +63,9 @@
 	};
 	
 </script>
-
+{#if loginState === null || loginState === false}
+<h1>Loading...</h1>
+{:else}
 	<h1>CID Checker</h1>
 
 	<form on:submit|preventDefault={handleSubmit}>
@@ -131,7 +138,7 @@
 			</table>
 		</div>
 		{/if}
-
+{/if}
 <style>
 
 	
