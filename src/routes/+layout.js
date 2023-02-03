@@ -16,11 +16,9 @@ export async function load() {
                 // User is signed in, see docs for a list of available properties
                 // https://firebase.google.com/docs/reference/js/firebase.User
                 const uid = user.uid;
-                console.log(`User with uid ${uid} is signed in`);
                 loginState.set(true);
                 goto('/CID-checker-Frontend');
             } else {
-                console.log('user is not signed in')
                 loginState.set(false);
                 goto('/CID-checker-Frontend/login/');
             }
