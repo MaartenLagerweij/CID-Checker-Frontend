@@ -18,6 +18,9 @@
         },{
             title: "Link replacer",
             path: "/CID-checker-Frontend/link-replacer/"
+        },{
+            title: "Image tool",
+            path: "/CID-checker-Frontend/images/"
         }
     ]
 
