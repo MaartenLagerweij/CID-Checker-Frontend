@@ -14,7 +14,6 @@
 
     function updateImage() {
         imageData.update(val => {
-            console.log(val)
             return [{
                 alt: alt,
                 title: title,

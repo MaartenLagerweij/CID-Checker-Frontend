@@ -16,6 +16,13 @@
     const unsub = imageData.subscribe(val => imageOutput = val);
 
     let current = null;
+    const newImages = [...images];
+    let paginationPages = [];
+    while(newImages.length > 0){
+        paginationPages.push(newImages.splice(0,5));
+    }
+    console.log('paginationPages: ',paginationPages);
+    $: currentPagination = 1;
     //The following signs were used for < and > to convert to these HTML elements (not used anymore here): &lt;  = <       &gt;    = >
     $: imageHTML = `<img src="/${imageOutput[0].url}/" alt="${imageOutput[0].alt}" title="${imageOutput[0].title}" class="align-left" />`;
 
@@ -26,7 +33,6 @@
     })
 
     function downloadImage(){
-        console.log(images[current]);
 
         let imgPath = images[current]["imageURL"];
         let fileName = images[current]["alt"];
@@ -40,18 +46,63 @@
     }
 </script>
 
+
+
 <div class="card image-card">
     <h5 class="card-header">ImageURL</h5>
     <div class="card-body">
       <div class="card card-inner inner1">
-        <div class="images-display">
-            {#each images as image, ix}
-                <img class={current === ix ? 'selected' : ''}
-                on:click={() => current = ix}
-                alt={image.alt} 
-                width="110" 
-                src={image.imageURL}>
-            {/each}
+        <div>
+            <div>
+                <nav aria-label="Images navigation">
+                    <ul class="pagination justify-content-center">
+                      <li class="page-item">
+                        <a class="page-link" href="#0" on:click={() => currentPagination>0 ? currentPagination-=1 : null} aria-label="Previous">
+                          <span aria-hidden="true">&laquo;</span>
+                        </a>
+                      </li>
+                      {#each paginationPages as paginationPage,i}
+                            <li class="page-item"><a class="page-link" href="#{i+1}" on:click={()=> {
+                                //I have to put it in Template Literals because otherwise it assigns it to an object: {i: 0|1}
+                                currentPagination = `${i}`;
+                                currentPagination = Number(currentPagination);
+                            }}>{i+1}</a></li>
+                      {/each}
+                      <li class="page-item">
+                        <a class="page-link" href="#0" on:click={() => currentPagination<paginationPages.length-1 ? currentPagination+=1 : null} aria-label="Next">
+                          <span aria-hidden="true">&raquo;</span>
+                        </a>
+                      </li>
+                    </ul>
+                  </nav>
+            </div>
+
+            <div class="pagination-content">
+                {#each paginationPages as page, ix}
+                    <div id={ix} class={currentPagination === ix ? 'pagination-tab active' : 'pagination-tab'}>
+                        <div class="images-display">
+                            {#each paginationPages[ix] as {imageURL}, i}
+                            <img class={current === i ? 'selected' : ''}
+                                on:click={() => current = i}
+                                alt={i} 
+                                width="110" 
+                                src={imageURL}>
+                            {/each}
+                        </div>
+                    </div>
+                {/each}
+            </div>
+
+            
+            <!-- <div class="images-display">
+                {#each images as image, ix}
+                    <img class={current === ix ? 'selected' : ''}
+                    on:click={() => current = ix}
+                    alt={image.alt} 
+                    width="110" 
+                    src={image.imageURL}>
+                {/each}
+            </div> -->
         </div>
 
             <div class ="image-html">
@@ -126,5 +177,11 @@
     }
     code {
         white-space: pre-line;
+    }
+    .pagination-tab {
+        display: none;
+    }
+    .pagination-content div.active {
+        display: block;
     }
   </style>
