@@ -7,5 +7,6 @@ export let imageData = writable([{
     alt: 'test3',
     title: '',
     url: '',
-    width: ''
+    width: '',
+    class: ''
 }]);

@@ -24,7 +24,7 @@
     console.log('paginationPages: ',paginationPages);
     $: currentPagination = 1;
     //The following signs were used for < and > to convert to these HTML elements (not used anymore here): &lt;  = <       &gt;    = >
-    $: imageHTML = `<img src="/${imageOutput[0].url}/" alt="${imageOutput[0].alt}" title="${imageOutput[0].title}" class="align-left" />`;
+    $: imageHTML = `<img src="/${imageOutput[0].url}/" alt="${imageOutput[0].alt}" title="${imageOutput[0].title}" class="${imageOutput[0].class}" />`;
 
     
     //Is this one below necessary to unsubscribe when component destroyed to prevent memory leaks? 
@@ -62,7 +62,7 @@
                         </a>
                       </li>
                       {#each paginationPages as paginationPage,i}
-                            <li class="page-item"><a class="page-link" href="#{i+1}" on:click={()=> {
+                            <li class="page-item"><a class={currentPagination === i ? 'page-link active-pagination' : 'page-link'} href="#{i+1}" on:click={()=> {
                                 //I have to put it in Template Literals because otherwise it assigns it to an object: {i: 0|1}
                                 currentPagination = `${i}`;
                                 currentPagination = Number(currentPagination);
@@ -92,17 +92,6 @@
                     </div>
                 {/each}
             </div>
-
-            
-            <!-- <div class="images-display">
-                {#each images as image, ix}
-                    <img class={current === ix ? 'selected' : ''}
-                    on:click={() => current = ix}
-                    alt={image.alt} 
-                    width="110" 
-                    src={image.imageURL}>
-                {/each}
-            </div> -->
         </div>
 
             <div class ="image-html">
@@ -131,7 +120,7 @@
     }
     .image-html {
         background-color: #e3e3e3;
-        max-width: 95%;
+        width: 95%;
         margin: auto;
         margin-top: 12px;
         padding: 10px 6px 0px 6px;
@@ -184,4 +173,10 @@
     .pagination-content div.active {
         display: block;
     }
+    .active-pagination {
+    z-index: 1;
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+}
   </style>

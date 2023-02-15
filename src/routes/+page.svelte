@@ -72,7 +72,7 @@
 
 		{#each pageTypes as pageType}
 			<label class="container-radio" >
-				<input type="radio" value={pageType} on:click={()=> buttonDisabled = false} bind:group={radioValue} />
+				<input type="radio" value={pageType} on:click={()=>buttonDisabled = false} bind:group={radioValue} />
 					{pageType}
 				<span class="checkmark"></span>
 			</label>
@@ -104,7 +104,7 @@
 		<label in:fly="{{x: 200, duration: 1600 }}" class="container-radio" >
 			<input type="radio" value={cidDisplayOption} bind:group={cidDisplayRadioValue} />
 				{cidDisplayOption}
-			<span class="checkmark"></span>
+			<!-- <span class="checkmark"></span> -->
 		</label>
 	{/each}<br /><br />
 

@@ -11,6 +11,13 @@
     let title = '';
     let url = '';
     let width;
+    let radioValueAlign = 'left';
+    let alignLeftRightValues = ['left', 'none', 'right'];
+    let alignLeftRightValuesWithClass = {
+        'left': 'image--alignleft',
+        'none': '',
+        'right': 'image--alignright'
+    }
 
     function updateImage() {
         imageData.update(val => {
@@ -18,7 +25,8 @@
                 alt: alt,
                 title: title,
                 url: url,
-                width: width
+                width: width,
+                class: alignLeftRightValuesWithClass[radioValueAlign]
             }]
         })
     }
@@ -39,6 +47,16 @@
         <input bind:value={width} on:input={updateImage} type="number" class="form-control" id="heigh-width" placeholder="width" /> 
         <input type="number" class="form-control" id="heigh-width" placeholder="height" /> 
     </div>
+    <div class="align-image">
+        {#each alignLeftRightValues as alignValue}
+            <label class="container-radio" >
+                <input type="radio" name="align-images" value={alignValue} bind:group={radioValueAlign} on:change={updateImage} />
+                    <p>{alignValue}</p>
+                <span class="checkmark"></span>
+            </label>
+        {/each}
+    </div>
+
 </form>
 
 
@@ -53,5 +71,8 @@
     }
     #label-height-width {
         margin-bottom: 0px;
+    }
+    .align-image label {
+        padding: 10px 15px;
     }
 </style>
