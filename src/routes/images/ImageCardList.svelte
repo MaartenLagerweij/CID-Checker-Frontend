@@ -5,6 +5,8 @@
      * @type {{ imageURL: string, alt: string}[]}
      */
     import {onDestroy, onMount} from 'svelte';
+    import { slide } from 'svelte/transition';
+
     import ControlPanel from "./ControlPanel.svelte";
     import { imageData } from "../../store";
 
@@ -12,6 +14,9 @@
 
     /**@type {number | null}*/
     let imageOutput;
+    let imageSelected;
+    let urlNaming;
+    let missingHTMLButtonElements = false;
 
     const unsub = imageData.subscribe(val => imageOutput = val);
 
@@ -22,7 +27,7 @@
         paginationPages.push(newImages.splice(0,5));
     }
     console.log('paginationPages: ',paginationPages);
-    $: currentPagination = 1;
+    $: currentPagination = 0;
     //The following signs were used for < and > to convert to these HTML elements (not used anymore here): &lt;  = <       &gt;    = >
     $: imageHTML = `<img src="/${imageOutput[0].url}/" alt="${imageOutput[0].alt}" title="${imageOutput[0].title}" class="${imageOutput[0].class}" />`;
 
@@ -33,6 +38,22 @@
     })
 
     function downloadImage(){
+        if(current == null && imageOutput[0].url == '') {
+            urlNaming = false;
+            imageSelected = false;
+            return;
+        }
+        if(current == null) {
+            urlNaming = true;
+            return imageSelected = false;
+        }
+        if(imageOutput[0].url == '') {
+            imageSelected = true;
+            return urlNaming = false;
+        } else {
+            imageSelected = true;
+            urlNaming = true;
+        }
 
         let imgPath = images[current]["imageURL"];
         let fileName = images[current]["alt"];
@@ -42,6 +63,14 @@
     }
 
     function copyToClipboard(){
+        
+        if(imageOutput[0].alt !== '' && imageOutput[0].title !== '' && imageOutput[0].url !== ''){
+            missingHTMLButtonElements = false;
+            console.log('correcty')
+        } else {
+            missingHTMLButtonElements = true;
+        }
+
         return navigator.clipboard.writeText(imageHTML);
     }
 </script>
@@ -63,6 +92,7 @@
                       </li>
                       {#each paginationPages as paginationPage,i}
                             <li class="page-item"><a class={currentPagination === i ? 'page-link active-pagination' : 'page-link'} href="#{i+1}" on:click={()=> {
+                                current = null;
                                 //I have to put it in Template Literals because otherwise it assigns it to an object: {i: 0|1}
                                 currentPagination = `${i}`;
                                 currentPagination = Number(currentPagination);
@@ -102,7 +132,17 @@
 
             <button on:click={copyToClipboard} class="btn btn-outline-info">Copy image HTML</button>
         </div>
-        
+        {#if imageSelected === false && urlNaming == ''}
+            <p class="alert alert-danger" transition:slide>Please select an image and create url naming</p>
+        {:else if imageSelected === false}
+            <p class="alert alert-danger" transition:slide>Please select an image</p>
+        {:else if urlNaming == ''}
+            <p class="alert alert-danger" transition:slide>Please create url naming</p>
+        {/if}
+
+        {#if missingHTMLButtonElements}
+            <p class="alert alert-danger" transition:slide>Please make sure to fill in the <strong>alt tag</strong>, <strong>title tag</strong> and <strong>url name</strong></p>
+        {/if}
       </div>
       <div class="card card-inner control-panel">
         <ControlPanel />
@@ -146,6 +186,7 @@
     .images-display {
         display: flex;
         overflow-x: scroll;
+        justify-content: space-around;
     }
     .images-display img {
         padding: 5px 4px;
@@ -174,9 +215,10 @@
         display: block;
     }
     .active-pagination {
-    z-index: 1;
-    color: #fff;
-    background-color: #007bff;
-    border-color: #007bff;
-}
+        z-index: 1;
+        color: #fff;
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+    
   </style>
