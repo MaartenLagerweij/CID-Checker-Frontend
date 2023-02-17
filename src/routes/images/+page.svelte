@@ -1,15 +1,17 @@
 <script>
     // @ts-nocheck
         import { slide } from 'svelte/transition';
+        import { postFunction } from '$api/postCid.js';
         import ImageCardList from "./ImageCardList.svelte";
         
         let input = '';
         let submitError;
         let submitSuccess;
         let submitFeedback;
+        let pageResults = [];
         // let pages: Images[] // array of mock images array below
         
-        function submitFunction(){
+        async function submitFunction(){
             submitSuccess = false;
             if(input === '') {
                 submitError = true;
@@ -17,7 +19,8 @@
             } else {
                 submitError = false;
             }
-            console.log(input);
+
+            const routeEndpoint = '/get-images/';
             
             let urlsArray = input.split(/\n/);
             if (urlsArray[urlsArray.length - 1] === '') urlsArray.pop();
@@ -31,7 +34,12 @@
                 submitFeedback = `Getting image data for ${urlsArray.length} pages... Loading...`;
             }
 
-            console.log(urlsArray);
+            const data = await postFunction(urlsArray, routeEndpoint);
+
+		    pageResults = await data.json();
+            submitSuccess = false;
+
+            console.log(pageResults);
         }
 
         const images = [
@@ -69,7 +77,12 @@
                 </p>
             {/if}
             <!--{#each pages as images }  -->
-            <ImageCardList {images} />
+            {#each pageResults as pageResult}
+                <ImageCardList url={pageResult.url} {images} />
+            {/each}
+
+
+            <ImageCardList url="test-url" {images} />
     
     <style>
 

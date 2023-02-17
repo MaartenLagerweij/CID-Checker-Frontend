@@ -11,6 +11,7 @@
     import { imageData } from "../../store";
 
     export let images; // List of images
+    export let url; // url of the submitted page
 
     /**@type {number | null}*/
     let imageOutput;
@@ -78,7 +79,7 @@
 
 
 <div class="card image-card">
-    <h5 class="card-header">ImageURL</h5>
+    <h5 class="card-header">{url}</h5>
     <div class="card-body">
       <div class="card card-inner inner1">
         <div>
@@ -151,6 +152,9 @@
   </div>
 
   <style>
+    .image-card {
+        margin: 10px 0px;
+    }
     .buttons {
         display: flex;
         margin: auto;
