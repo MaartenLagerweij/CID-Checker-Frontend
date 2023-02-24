@@ -36,7 +36,7 @@
 	//The following signs were used for < and > to convert to these HTML elements (not used anymore here): &lt;  = <       &gt;    = >
 	$: imageHTML = `<img src="/${$imageData.url}/" alt="${$imageData.alt}" title="${$imageData.title}" class="${$imageData.class}" />`;
 
-	function downloadImage(size) {
+	function downloadImage(size, url) {
 		if (current == null && $imageData.url == '') {
 			urlNaming = false;
 			imageSelected = false;
@@ -54,8 +54,8 @@
 			urlNaming = true;
 		}
 
-		const currentImgPath = images[current]['imageURL'];
-		const fileName = images[current]['alt'];
+		const currentImgPath = images[current];
+		const fileName = url;
 
 		const imgPath = `${currentImgPath}?forceSize=true&forceAspectRatio=true&useTrim=true&size=${size}x${size}`;
 
@@ -124,17 +124,17 @@
 				</div>
 
 				<div class="pagination-content">
-					{#each paginationPages as page, ix}
+					{#each paginationPages as page, pageIx}
 						<div
-							id={ix}
-							class={currentPagination === ix ? 'pagination-tab active' : 'pagination-tab'}
+							id={pageIx}
+							class={currentPagination === pageIx ? 'pagination-tab active' : 'pagination-tab'}
 						>
 							<div class="images-display">
-								{#each page as imageURL, i}
+								{#each page as imageURL, imgIx}
 									<img
-										class={current === i ? 'selected' : ''}
-										on:click={() => (current = i)}
-										alt={i}
+										class={current === imgIx ? 'selected' : ''}
+										on:click={() => (current = pageIx * 5 + imgIx)}
+										alt={imgIx}
 										width="110"
 										src={imageURL}
 									/>
@@ -149,8 +149,9 @@
 				<pre><code>{imageHTML}</code></pre>
 			</div>
 			<div class="buttons">
-				<button on:click={downloadImage($imageData.size)} class="btn btn-outline-success"
-					>Download image</button
+				<button
+					on:click={downloadImage($imageData.size, $imageData.url)}
+					class="btn btn-outline-success">Download image</button
 				>
 
 				<button on:click={copyToClipboard} class="btn btn-outline-info">Copy image HTML</button>
