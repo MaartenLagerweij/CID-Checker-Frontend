@@ -26,12 +26,12 @@
 	let missingHTMLButtonElements = false;
 
 	let current = null;
-	const newImages = [...images];
+	const newImages = images.slice(0, 50);
 	let paginationPages = [];
 	while (newImages.length > 0) {
 		paginationPages.push(newImages.splice(0, 5));
 	}
-	console.log('paginationPages: ', paginationPages);
+
 	$: currentPagination = 0;
 	//The following signs were used for < and > to convert to these HTML elements (not used anymore here): &lt;  = <       &gt;    = >
 	$: imageHTML = `<img src="/${$imageData.url}/" alt="${$imageData.alt}" title="${$imageData.title}" class="${$imageData.class}" />`;
