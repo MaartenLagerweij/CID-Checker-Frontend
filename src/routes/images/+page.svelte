@@ -4,6 +4,7 @@
 	import { postFunction } from '$api/postCid.js';
 	import ImageCardList from './ImageCardList.svelte';
 
+	// TODO: Delete test data file and import
 	import { testData } from './data';
 
 	let input = '';
@@ -42,6 +43,7 @@
 		const images = await data.json();
 		submitSuccess = false;
 
+		// TODO: Remove testData here: pageResults = images;
 		pageResults = [testData, ...images];
 	}
 </script>
