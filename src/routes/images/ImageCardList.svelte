@@ -7,17 +7,16 @@
 	import { slide } from 'svelte/transition';
 
 	import ControlPanel from './ControlPanel.svelte';
-	import { imageData } from '../../store';
 	import { writable } from 'svelte/store';
 
 	export let images; // List of images
 	export let url; // url of the submitted page
 
-	const _imageData = writable({
+	const imageData = writable({
 		alt: '',
 		title: '',
 		url: '',
-		width: '',
+		size: '',
 		class: ''
 	});
 
@@ -35,10 +34,10 @@
 	console.log('paginationPages: ', paginationPages);
 	$: currentPagination = 0;
 	//The following signs were used for < and > to convert to these HTML elements (not used anymore here): &lt;  = <       &gt;    = >
-	$: imageHTML = `<img src="/${$_imageData.url}/" alt="${$_imageData.alt}" title="${$_imageData.title}" class="${$_imageData.class}" />`;
+	$: imageHTML = `<img src="/${$imageData.url}/" alt="${$imageData.alt}" title="${$imageData.title}" class="${$imageData.class}" />`;
 
-	function downloadImage() {
-		if (current == null && $_imageData.url == '') {
+	function downloadImage(size) {
+		if (current == null && $imageData.url == '') {
 			urlNaming = false;
 			imageSelected = false;
 			return;
@@ -47,7 +46,7 @@
 			urlNaming = true;
 			return (imageSelected = false);
 		}
-		if ($_imageData.url == '') {
+		if ($imageData.url == '') {
 			imageSelected = true;
 			return (urlNaming = false);
 		} else {
@@ -55,14 +54,16 @@
 			urlNaming = true;
 		}
 
-		let imgPath = images[current]['imageURL'];
-		let fileName = images[current]['alt'];
+		const currentImgPath = images[current]['imageURL'];
+		const fileName = images[current]['alt'];
+
+		const imgPath = `${currentImgPath}?forceSize=true&forceAspectRatio=true&useTrim=true&size=${size}x${size}`;
 
 		saveAs(imgPath, fileName);
 	}
 
 	function copyToClipboard() {
-		if ($_imageData.alt !== '' && $_imageData.title !== '' && $_imageData.url !== '') {
+		if ($imageData.alt !== '' && $imageData.title !== '' && $imageData.url !== '') {
 			missingHTMLButtonElements = false;
 			console.log('correct');
 		} else {
@@ -148,7 +149,9 @@
 				<pre><code>{imageHTML}</code></pre>
 			</div>
 			<div class="buttons">
-				<button on:click={downloadImage} class="btn btn-outline-success">Download image</button>
+				<button on:click={downloadImage($imageData.size)} class="btn btn-outline-success"
+					>Download image</button
+				>
 
 				<button on:click={copyToClipboard} class="btn btn-outline-info">Copy image HTML</button>
 			</div>
@@ -170,7 +173,7 @@
 			{/if}
 		</div>
 		<div class="card card-inner control-panel">
-			<ControlPanel {_imageData} />
+			<ControlPanel {imageData} />
 		</div>
 	</div>
 </div>
