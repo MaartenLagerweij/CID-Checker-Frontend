@@ -4,11 +4,14 @@
 	import { postFunction } from '$api/postCid.js';
 	import ImageCardList from './ImageCardList.svelte';
 
+	import { testData } from './data';
+
 	let input = '';
 	let submitError;
 	let submitSuccess;
 	let submitFeedback;
-	let pageResults = [];
+
+	$: pageResults = [testData];
 	// let pages: Images[] // array of mock images array below
 
 	async function submitFunction() {
@@ -36,38 +39,11 @@
 
 		const data = await postFunction(urlsArray, routeEndpoint);
 
-		pageResults = await data.json();
+		const images = await data.json();
 		submitSuccess = false;
 
-		console.log(pageResults);
+		pageResults = [testData, ...images];
 	}
-
-	const images = [
-		{
-			imageURL:
-				'https://images.internetstores.de/products/1835758/02/d93ccd/merrell-agility-peak-4-shoes-men-jade-1.jpg?forceSize=true&forceAspectRatio=true&useTrim=true&size=613x613'
-		},
-		{
-			imageURL:
-				'https://images.internetstores.de/products/1835758/02/d93ccd/merrell-agility-peak-4-shoes-men-jade-1.jpg?forceSize=true&forceAspectRatio=true&useTrim=true&size=613x613'
-		},
-		{
-			imageURL:
-				'https://images.internetstores.de/products/1835758/02/d93ccd/merrell-agility-peak-4-shoes-men-jade-1.jpg?forceSize=true&forceAspectRatio=true&useTrim=true&size=613x613'
-		},
-		{
-			imageURL:
-				'https://images.internetstores.de/products/1835758/02/d93ccd/merrell-agility-peak-4-shoes-men-jade-1.jpg?forceSize=true&forceAspectRatio=true&useTrim=true&size=613x613'
-		},
-		{
-			imageURL:
-				'https://images.internetstores.de/products/1835758/02/d93ccd/merrell-agility-peak-4-shoes-men-jade-1.jpg?forceSize=true&forceAspectRatio=true&useTrim=true&size=613x613'
-		},
-		{
-			imageURL:
-				'https://images.internetstores.de/products/1835758/02/d93ccd/merrell-agility-peak-4-shoes-men-jade-1.jpg?forceSize=true&forceAspectRatio=true&useTrim=true&size=613x613'
-		}
-	];
 </script>
 
 <h1>Image tool</h1>
@@ -88,11 +64,6 @@
 	</p>
 {/if}
 <!--{#each pages as images }  -->
-{#each pageResults as pageResult}
-	<ImageCardList url={pageResult.url} {images} />
+{#each pageResults as { url, imgSrcs }}
+	<ImageCardList {url} images={imgSrcs} />
 {/each}
-
-<ImageCardList url="test-url" {images} />
-
-<style>
-</style>

@@ -130,7 +130,7 @@
 							class={currentPagination === ix ? 'pagination-tab active' : 'pagination-tab'}
 						>
 							<div class="images-display">
-								{#each paginationPages[ix] as { imageURL }, i}
+								{#each page as imageURL, i}
 									<img
 										class={current === i ? 'selected' : ''}
 										on:click={() => (current = i)}
